@@ -27,14 +27,6 @@ public class Controller : MonoBehaviour
     public bool IsCrouch;
     public bool IsCrawl;
 
-    [Space(20)]
-    [Header("Connecty")]
-    public RawImage ZmienianieStylu;
-    public Texture Stoi;
-    public Texture Chód;
-    public Texture Bieg;
-    public Texture Kuca;
-    public Texture Leży;
 
 
 
@@ -72,68 +64,17 @@ public class Controller : MonoBehaviour
         bool isCrouching = Input.GetKey(KeyCode.C);
         bool isCrawling = Input.GetKey(KeyCode.LeftControl);
 
-        // Ustawianie flag w zależności od stanu ruchu
-        if (isCrawling)
-        {
-            // Gracz leży (czołga się) niezależnie od ruchu
-            SetMovementState(false, false, false, false, true);
-            RB.MovePosition(transform.position + (transform.forward * Vertical * CrawlSpeed) + (transform.right * Horizontal * CrawlSpeed));
-            playerStat.Stamina += 20 * Time.deltaTime;
-            ChangeTexture();
-        }
-        else if (isCrouching)
-        {
-            // Gracz kuca niezależnie od ruchu
-            SetMovementState(false, false, false, true, false);
-            RB.MovePosition(transform.position + (transform.forward * Vertical * CrouchSpeed) + (transform.right * Horizontal * CrouchSpeed));
-            playerStat.Stamina += 15 * Time.deltaTime;
-            ChangeTexture();
-        }
-        else if (!isMoving)
-        {
-            // Gracz stoi w miejscu
-            SetMovementState(true, false, false, false, false);
-            playerStat.Stamina += 10 * Time.deltaTime;
-            ChangeTexture();
-        }
-        else if (isSprinting)
-        {
-            // Gracz sprintuje
-            SetMovementState(false, false, true, false, false);
-            RB.MovePosition(transform.position + (transform.forward * Vertical * SprintSpeed) + (transform.right * Horizontal * SprintSpeed));
-            playerStat.Stamina -= 40 * Time.deltaTime;
-            ChangeTexture();
-        }
-        else
-        {
-            // Gracz idzie
-            SetMovementState(false, true, false, false, false);
-            RB.MovePosition(transform.position + (transform.forward * Vertical * MoveSpeed) + (transform.right * Horizontal * MoveSpeed));
-            playerStat.Stamina += 5 * Time.deltaTime;
-            ChangeTexture();
-        }
+
+
 
         // Obsługa skoku
         if (IsGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             RB.AddForce(transform.up * JumpForce);
         }
-
-
-
-
-        lastPosition = transform.position;
     }
 
-    // Funkcja pomocnicza do ustawiania stanów ruchu
-    private void SetMovementState(bool isStay, bool isWalk, bool isSprint, bool isCrouch, bool isCrawl)
-    {
-        IsStay = isStay;
-        IsWalk = isWalk;
-        IsSprint = isSprint;
-        IsCrouch = isCrouch;
-        IsCrawl = isCrawl;
-    }
+
 
         private void OnCollisionEnter(Collision collision)
     {
@@ -151,27 +92,5 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void ChangeTexture() {
-        // Sprawdzamy stan ruchu gracza i przypisujemy odpowiednią teksturę
-        if (IsStay)
-        {
-            ZmienianieStylu.texture = Stoi;  // Gracz stoi
-        }
-        else if (IsWalk)
-        {
-            ZmienianieStylu.texture = Chód;  // Gracz chodzi
-        }
-        else if (IsSprint)
-        {
-            ZmienianieStylu.texture = Bieg;  // Gracz biegnie
-        }
-        else if (IsCrouch)
-        {
-            ZmienianieStylu.texture = Kuca;  // Gracz kuca
-        }
-        else if (IsCrawl)
-        {
-            ZmienianieStylu.texture = Leży;  // Gracz leży (czołga się)
-        }
-    }
+
 }
