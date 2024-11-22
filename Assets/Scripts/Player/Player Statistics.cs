@@ -4,61 +4,92 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-
 using Image = UnityEngine.UI.Image;
+
+
 
 public class PlayerStat : MonoBehaviour
 {
     [Header("Player Statistic")]
-    [Range(0, 200)]public float Health = 100;
-    [Range(0, 200)]public float Stamina = 100;
-    [Range(0, 200)]public float Food = 100;
-    [Range(0, 200)]public float Water = 100;
-    [Range(0, 200)]public float Oxygen = 100;
-    [Range(-50, 80)]public float Temperature = 22;
-    [Range(0, 100)]public float Radiation = 0;
-    [Range(0, 100)]public float Pollution = 0;
-    [Range(0, 100)]public float Virus = 0;
+    public float Health = 100;
+    public float Stamina = 100;
+    public float Food = 100;
+    public float Water = 100;
+    public float Oxygen = 100;
+    public float Temperature = 22;
+    public float Radiation = 0;
+    public float Pollution = 0;
+    public float Virus = 0;
+    public float Weight = 0;
+
     
-    [Header("Max Player Statistic")]
-    public float M_Health = 100;
-    public float M_Stamina = 100;
-    public float M_Food = 100;
-    public float M_Water = 100;
-    public float M_Oxygen = 100;
-    public float M_Temperature = 100;
+    //Additional Stat
+    private float AddHealth, AddStamina, AddFood, AddWater, AddOxygen, AddVirus, AddWeight;
+
+    //Max Stat
+    private float MxHealth, MxStamina, MxFood, MxWater, MxOxygen, MxTemp, MxRadiation, MxPollution, MxVirus, MxWeight;
+
+    // Type of Statistics
+    private GameObject S_Health, S_Food, S_Water, S_Virus, S_Temperature, S_Oxygen, S_Radiation, S_Weight, S_Stamina;
+    private Image F_Weight;
 
 
-    [Header("Connect Bar")]
-    public Image HealthBar;
-    public Image StaminaBar;
-    public Image FoodBar;
-    public Image WaterBar;
+
 
     
 
     void Start()
     {
+        AsignVariable();
+        StatisticUpdate();
 
     }
 
     void Update()
     {
-        Stamina = Mathf.Clamp(Stamina, 0 ,M_Stamina);
-
-        HealthBar.fillAmount = Health / M_Health;
-        StaminaBar.fillAmount = Stamina / M_Stamina;
-        FoodBar.fillAmount = Food / M_Food;
-        WaterBar.fillAmount = Water / M_Water;
-
-        Food -= 0.05f * Time.deltaTime;
+        StatisticUpdate();
 
 
-        // Obniżanie zdrowa, gdy jedzenie spada do zera
-        if(Food == 0 )
-        {
-            Health -= 0.5f * Time.deltaTime;
-        }
+
+    }
+
+
+
+
+
+
+
+
+    void StatisticUpdate()
+    {
+        MxHealth = 100 + AddHealth;
+        MxStamina = 100 + AddStamina;
+        MxFood = 100 + AddFood;
+        MxWater = 100 + AddWater;
+        MxOxygen = 100 + AddOxygen;
+        MxVirus = 0 + AddVirus;
+        MxWeight = 100 + AddWeight;
+        Debug.Log($"Weight: {Weight}, MxWeight: {MxWeight}, FillAmount: {Weight / MxWeight}");
+        F_Weight.fillAmount = Mathf.Clamp01(Weight / MxWeight);
+
+    }
+
+
+
+
+    void AsignVariable()
+    {
+        S_Health = GameObject.Find("Canvas/Statistics/S_Health");
+        S_Food = GameObject.Find("Canvas/Statistics/S_Food");
+        S_Water = GameObject.Find("Canvas/Statistics/S_Water");
+        S_Virus = GameObject.Find("Canvas/Statistics/S_Virus");
+        S_Temperature = GameObject.Find("Canvas/Statistics/S_Temperature");
+        S_Oxygen = GameObject.Find("Canvas/Statistics/S_Oxygen");
+        S_Radiation = GameObject.Find("Canvas/Statistics/S_Radiation");
+        S_Weight = GameObject.Find("Canvas/Statistics/S_Weight");
+        S_Stamina = GameObject.Find("Canvas/Statistics/S_Stamina");
+
+        F_Weight = GameObject.Find("Canvas/Statistics/F_Weight")?.GetComponent<Image>();
 
 
 
