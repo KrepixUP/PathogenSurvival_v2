@@ -27,8 +27,8 @@ public class CameraController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90, 90);
         Camera.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
 
 
