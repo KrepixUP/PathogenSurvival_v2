@@ -5,37 +5,29 @@ public class PlayerMotor : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool isGrounded;
-    public float speed = 5f;
+    public float walkSpeed = 5f;
+    public float sprintSpeed = 8f;
+    public float crouchSpeed = 2f;
     public float gravity = -9.8f;
     public float jumpHeight = 1f;
 
-    private bool lerpCrouch = false;
-    private bool crouching = false;
-    private bool sprinting = false;
-    private float crouchTimer = 0f;
+    private float currentSpeed;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        currentSpeed = walkSpeed;
     }
 
     void Update()
     {
         isGrounded = controller.isGrounded;
+        playerVelocity.y += gravity * Time.deltaTime;
 
-        if (lerpCrouch)
-        {
-            crouchTimer += Time.deltaTime;
-            float p = crouchTimer / 1f; // czas interpolacji w sekundach
-            p = Mathf.Clamp01(p); // upewniamy się, że p jest w zakresie 0-1
-            controller.height = Mathf.SmoothStep(controller.height, crouching ? 1f : 2f, p);
+        if (isGrounded && playerVelocity.y < 0)
+            playerVelocity.y = -2f;
 
-            if (p >= 1f)
-            {
-                lerpCrouch = false;
-                crouchTimer = 0f;
-            }
-        }
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 
     public void ProcessMove(Vector2 input)
@@ -43,11 +35,26 @@ public class PlayerMotor : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
         moveDirection.x = input.x; // Ruch w osi X
         moveDirection.z = input.y; // Ruch w osi Z
-        controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
-        playerVelocity.y += gravity * Time.deltaTime;
-        if (isGrounded && playerVelocity.y < 0)
-            playerVelocity.y = -2f;
-        controller.Move(playerVelocity * Time.deltaTime);
+        controller.Move(transform.TransformDirection(moveDirection) * currentSpeed * Time.deltaTime);
+    }
+
+    public void SetCrouch(bool isCrouching)
+    {
+        if (isCrouching)
+        {
+            currentSpeed = crouchSpeed;
+            controller.height = 1f;
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+            controller.height = 2f;
+        }
+    }
+
+    public void SetSprint(bool isSprinting)
+    {
+        currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
     }
 
     public void Jump()
@@ -56,22 +63,5 @@ public class PlayerMotor : MonoBehaviour
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }
-    }
-    
-
-    public void Crouch()
-    {
-        crouching = !crouching;
-        crouchTimer = 0;
-        lerpCrouch = true;
-    }
-
-    public void Sprint()
-    {
-        sprinting = !sprinting;
-        if (sprinting)
-            speed = 8;
-        else
-            speed = 5;
     }
 }
