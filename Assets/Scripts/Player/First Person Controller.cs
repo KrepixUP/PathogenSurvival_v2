@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 
 
-public class Controller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     Rigidbody RB;
 
     [Header("Player Settings")]
-    public float MoveSpeed = 0.05f;
-    public float SprintSpeed = 0.08f;
+    public float MoveSpeed = 0.08f;
+    public float SprintSpeed = 0.1f;
     public float CrouchSpeed = 0.03f;
     public float CrawlSpeed = 0.02f;
     public float JumpForce = 14000;

@@ -35,7 +35,7 @@ public class PlayerStat : MonoBehaviour
     // Type of Statistics
     private GameObject S_Health, S_Food, S_Water, S_Virus, S_Temperature, S_Oxygen, S_Radiation, S_Weight, S_Stamina;
     private Image F_Weight, F_Stamina, F_Oxygen, F_Radiation, F_Health, F_Food, F_Water, F_Virus, F_Temperature;
-    private TextMeshProUGUI T_Temperature;
+    private TextMeshProUGUI T_Temperature, T_Weight;
 
 
 
@@ -85,7 +85,7 @@ public class PlayerStat : MonoBehaviour
         F_Temperature = GameObject.Find("Canvas/Statistics/S_Temperature/F_Temperature")?.GetComponent<Image>();
 
         T_Temperature = GameObject.Find("Canvas/Statistics/S_Temperature/T_Temperature")?.GetComponent<TextMeshProUGUI>();
-
+        T_Weight = GameObject.Find("Canvas/Statistics/S_Weight/T_Weight")?.GetComponent<TextMeshProUGUI>();
     }
 
 
@@ -115,6 +115,9 @@ public class PlayerStat : MonoBehaviour
         float displayTemperature = Temperature;
         string unit = "°F";
 
+        int weightPercentage = Mathf.RoundToInt(F_Weight.fillAmount * 100);
+        T_Weight.text = $"{weightPercentage}";
+
 
         if (Celcjusze)
         {
@@ -140,10 +143,10 @@ public class PlayerStat : MonoBehaviour
 
 
 
-
+        if (F_Weight.fillAmount >= 0.5f){if(F_Weight.fillAmount >= 0.75f){F_Weight.color = new Color(1f, 0f, 0f);}else{F_Weight.color = new Color(1f, 0.5f, 0f);}}else{F_Weight.color = Color.white;}
         if (F_Oxygen.fillAmount >= 1f) { S_Oxygen.SetActive(false); } else { S_Oxygen.SetActive(true);}
         if (F_Radiation.fillAmount <= 0f) { S_Radiation.SetActive(false); } else { S_Radiation.SetActive(true);}
-
+        
 
 
     }
