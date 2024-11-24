@@ -3726,6 +3726,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3551938131303824352, guid: 33b1e8589d5ac5644828633747e74a50, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8256460595713333858}
+    - targetCorrespondingSourceObject: {fileID: 3551938131303824352, guid: 33b1e8589d5ac5644828633747e74a50, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8256460595713333859}
   m_SourcePrefab: {fileID: 100100000, guid: 33b1e8589d5ac5644828633747e74a50, type: 3}
 --- !u!1 &8256460595713333851 stripped
 GameObject:
@@ -3774,6 +3777,29 @@ MonoBehaviour:
   cam: {fileID: 1184860979}
   xSensitivity: 30
   ySensitivity: 30
+--- !u!114 &8256460595713333859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8256460595713333851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c4da5f9529d3a4f9a1deb1ab3e3a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  Stamina: 100
+  Food: 100
+  Water: 100
+  Oxygen: 100
+  Temperature: 22
+  Radiation: 0
+  Pollution: 0
+  Virus: 0
+  Weight: 0
+  Celcjusze: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
